@@ -43,6 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastructure\ConsolePainter.cs" />
+    <Compile Include="Infrastructure\CursorTracker.cs" />
+    <Compile Include="Infrastructure\FilesRepository.cs" />
+    <Compile Include="Models\CursorEventArgs.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

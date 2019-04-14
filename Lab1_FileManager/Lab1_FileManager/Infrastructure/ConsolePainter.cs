@@ -1,13 +1,17 @@
-﻿using System;
+﻿using Lab1_FileManager.Models;
+using System;
 using System.Collections.Generic;
+using System.IO;
 
-namespace Lab1_FileManager.Infrasctruture
+namespace Lab1_FileManager.Infrastructure
 {
     public class ConsolePainter
     {
-        public ConsolePainter()
-        {
+        private readonly CursorTracker _cursorTracker;
 
+        public ConsolePainter(CursorTracker cursorTracker)
+        {
+            _cursorTracker = cursorTracker;
         }
 
         public void DrawLine(int x, int y, string content)
@@ -18,12 +22,19 @@ namespace Lab1_FileManager.Infrasctruture
             Console.WriteLine(content);
         }
 
-        public void DrawFolderFiles(int x, int y, List<string> folderFiles)
+        public void DrawFolderFiles(List<FileSystemInfo> dirsAndFiles)
         {
-            foreach (var file in folderFiles)
+            Console.SetCursorPosition(_cursorTracker.X, _cursorTracker.Y);
+            foreach (var file in dirsAndFiles)
             {
-                Console.WriteLine(file);
+                Console.WriteLine(file.Name);
             }
         }
+
+        public void OnCursorMoved(object source, CursorEventArgs e)
+        {
+            Console.WriteLine(e.Ycoordinate);
+        }
+
     }
 }
