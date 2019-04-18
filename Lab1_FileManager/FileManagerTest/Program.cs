@@ -1,7 +1,7 @@
 using FileManagerTest.Infrastructure;
 using FileManagerTest.Models;
 using System;
-using System.Text.RegularExpressions;
+using System.IO;
 
 namespace FileManagerTest
 {
@@ -9,28 +9,24 @@ namespace FileManagerTest
     {
         static void Main(string[] args)
         {
-            //Console.Write("Input path to start:  ");
+            Console.Write("Input start directory path:  ");
+            FileManagerState.StartPath = Console.ReadLine();
 
-            //FileManagerState.CurrentPath = Console.ReadLine();
+            while (!Directory.Exists(FileManagerState.StartPath))
+            {
+                Console.WriteLine("Directory does not exist!");
+                Console.WriteLine();
+                Console.Write("Input start directory path:  ");
 
-            //Regex regularExp = new Regex(@"[A-Z]:\*");
+                FileManagerState.StartPath = Console.ReadLine();
+            }
 
-            //while (!regularExp.IsMatch(FileManagerState.CurrentPath))
-            //{
-            //    Console.Write("Input path to start:  ");
-
-            //    FileManagerState.CurrentPath = Console.ReadLine();
-            //}
-
-            //Console.Clear();
-
-            FileManagerState.StartPath = @"C:\Test";
+            //FileManagerState.StartPath = @"C:\Test";
             FileManagerState.CurrentPath = FileManagerState.StartPath;
 
             var fileManager = new FileManager();
 
             fileManager.Start();
-
         }
     }
 }
