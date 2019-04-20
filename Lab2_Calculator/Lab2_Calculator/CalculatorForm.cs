@@ -6,29 +6,64 @@ namespace Lab2_Calculator
 {
     public partial class CalculatorForm : Form
     {
+        private const string Zero = "0";
+
         public CalculatorForm()
         {
             InitializeComponent();
         }
 
+        private void CalculatorForm_Load(object sender, EventArgs e)
+        {
+            userInput.Text = Zero;
+        }
+
         private void btn0_Click(object sender, EventArgs e)
         {
-            userInput.Text += (sender as Button).Text;
+            var btnText = (sender as Button).Text;
+            
+            if (userInput.Text == Zero)
+            {
+                if (btnText == ".")
+                {
+                    userInput.Text = Zero + ".";
+                }
+                else
+                {
+                    userInput.Text = btnText;
+                }
+            }
+            else if (!(userInput.Text.EndsWith(".") && btnText == "."))
+            {
+                userInput.Text += btnText;
+            }
         }
 
         private void btnBackspace_Click(object sender, EventArgs e)
         {
-            if (userInput.Text != string.Empty)
+            if (userInput.Text.EndsWith(" "))
             {
-                var lastSymbolIndex = userInput.Text.Length - 1;
-                userInput.Text = userInput.Text.Remove(lastSymbolIndex);
+                userInput.Text.Remove(userInput.Text.LastIndexOf(" "));
             }
+            if (userInput.Text.Contains(" "))
+            {
+                userInput.Text = userInput.Text.Remove(userInput.Text.LastIndexOf(" "));
+            }
+            else
+            {
+                userInput.Text = string.Empty;
+            }
+        }
+
+        private void btnPlus_Click(object sender, EventArgs e)
+        {
+            userInput.Text += $" {(sender as Button).Text} ";
         }
 
         private void btnEqual_Click(object sender, EventArgs e)
         {
             var inputs = userInput.Text.Split(' ');
-            //MessageBox.Show(inputs.Length.ToString());
+
             var service = new Service();
 
             var result = service.Calculate(inputs);
@@ -37,11 +72,6 @@ namespace Lab2_Calculator
             {
                 userInput.Text = result;
             }
-        }
-
-        private void btnPlus_Click(object sender, EventArgs e)
-        {
-            userInput.Text += $" {(sender as Button).Text} ";
         }
 
     }

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.userInput = new System.Windows.Forms.TextBox();
             this.btn7 = new System.Windows.Forms.Button();
             this.btn9 = new System.Windows.Forms.Button();
             this.btn8 = new System.Windows.Forms.Button();
@@ -43,15 +42,11 @@
             this.btn0 = new System.Windows.Forms.Button();
             this.btnBackspace = new System.Windows.Forms.Button();
             this.btnPlus = new System.Windows.Forms.Button();
+            this.btnMinus = new System.Windows.Forms.Button();
+            this.btnMultiply = new System.Windows.Forms.Button();
+            this.btnDevide = new System.Windows.Forms.Button();
+            this.userInput = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // userInput
-            // 
-            this.userInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.userInput.Location = new System.Drawing.Point(182, 72);
-            this.userInput.Name = "userInput";
-            this.userInput.Size = new System.Drawing.Size(243, 38);
-            this.userInput.TabIndex = 0;
             // 
             // btn7
             // 
@@ -188,7 +183,7 @@
             // btnBackspace
             // 
             this.btnBackspace.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnBackspace.Location = new System.Drawing.Point(431, 262);
+            this.btnBackspace.Location = new System.Drawing.Point(431, 72);
             this.btnBackspace.Name = "btnBackspace";
             this.btnBackspace.Size = new System.Drawing.Size(77, 37);
             this.btnBackspace.TabIndex = 13;
@@ -199,7 +194,7 @@
             // btnPlus
             // 
             this.btnPlus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnPlus.Location = new System.Drawing.Point(431, 219);
+            this.btnPlus.Location = new System.Drawing.Point(431, 262);
             this.btnPlus.Name = "btnPlus";
             this.btnPlus.Size = new System.Drawing.Size(77, 37);
             this.btnPlus.TabIndex = 14;
@@ -207,11 +202,57 @@
             this.btnPlus.UseVisualStyleBackColor = true;
             this.btnPlus.Click += new System.EventHandler(this.btnPlus_Click);
             // 
+            // btnMinus
+            // 
+            this.btnMinus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnMinus.Location = new System.Drawing.Point(431, 218);
+            this.btnMinus.Name = "btnMinus";
+            this.btnMinus.Size = new System.Drawing.Size(77, 37);
+            this.btnMinus.TabIndex = 15;
+            this.btnMinus.Text = "-";
+            this.btnMinus.UseVisualStyleBackColor = true;
+            this.btnMinus.Click += new System.EventHandler(this.btnPlus_Click);
+            // 
+            // btnMultiply
+            // 
+            this.btnMultiply.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnMultiply.Location = new System.Drawing.Point(431, 176);
+            this.btnMultiply.Name = "btnMultiply";
+            this.btnMultiply.Size = new System.Drawing.Size(77, 37);
+            this.btnMultiply.TabIndex = 16;
+            this.btnMultiply.Text = "x";
+            this.btnMultiply.UseVisualStyleBackColor = true;
+            this.btnMultiply.Click += new System.EventHandler(this.btnPlus_Click);
+            // 
+            // btnDevide
+            // 
+            this.btnDevide.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnDevide.Location = new System.Drawing.Point(431, 133);
+            this.btnDevide.Name = "btnDevide";
+            this.btnDevide.Size = new System.Drawing.Size(77, 37);
+            this.btnDevide.TabIndex = 17;
+            this.btnDevide.Text = "/";
+            this.btnDevide.UseVisualStyleBackColor = true;
+            this.btnDevide.Click += new System.EventHandler(this.btnPlus_Click);
+            // 
+            // userInput
+            // 
+            this.userInput.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.userInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.userInput.Location = new System.Drawing.Point(182, 72);
+            this.userInput.Name = "userInput";
+            this.userInput.Size = new System.Drawing.Size(243, 37);
+            this.userInput.TabIndex = 18;
+            // 
             // CalculatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(666, 364);
+            this.Controls.Add(this.userInput);
+            this.Controls.Add(this.btnDevide);
+            this.Controls.Add(this.btnMultiply);
+            this.Controls.Add(this.btnMinus);
             this.Controls.Add(this.btnPlus);
             this.Controls.Add(this.btnBackspace);
             this.Controls.Add(this.btnPoint);
@@ -226,17 +267,14 @@
             this.Controls.Add(this.btn8);
             this.Controls.Add(this.btn9);
             this.Controls.Add(this.btn7);
-            this.Controls.Add(this.userInput);
             this.Name = "CalculatorForm";
             this.Text = "Calculator";
+            this.Load += new System.EventHandler(this.CalculatorForm_Load);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox userInput;
         private System.Windows.Forms.Button btn7;
         private System.Windows.Forms.Button btn9;
         private System.Windows.Forms.Button btn8;
@@ -251,6 +289,10 @@
         private System.Windows.Forms.Button btn0;
         private System.Windows.Forms.Button btnBackspace;
         private System.Windows.Forms.Button btnPlus;
+        private System.Windows.Forms.Button btnMinus;
+        private System.Windows.Forms.Button btnMultiply;
+        private System.Windows.Forms.Button btnDevide;
+        private System.Windows.Forms.Label userInput;
     }
 }
 
