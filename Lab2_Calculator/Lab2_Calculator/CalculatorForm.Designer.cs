@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.input = new System.Windows.Forms.TextBox();
+            this.userInput = new System.Windows.Forms.TextBox();
             this.btn7 = new System.Windows.Forms.Button();
             this.btn9 = new System.Windows.Forms.Button();
             this.btn8 = new System.Windows.Forms.Button();
@@ -44,13 +44,13 @@
             this.btnBackspace = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // input
+            // userInput
             // 
-            this.input.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.input.Location = new System.Drawing.Point(182, 72);
-            this.input.Name = "input";
-            this.input.Size = new System.Drawing.Size(243, 38);
-            this.input.TabIndex = 0;
+            this.userInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.userInput.Location = new System.Drawing.Point(182, 72);
+            this.userInput.Name = "userInput";
+            this.userInput.Size = new System.Drawing.Size(243, 38);
+            this.userInput.TabIndex = 0;
             // 
             // btn7
             // 
@@ -61,6 +61,7 @@
             this.btn7.TabIndex = 1;
             this.btn7.Text = "7";
             this.btn7.UseVisualStyleBackColor = true;
+            this.btn7.Click += new System.EventHandler(this.btn0_Click);
             // 
             // btn9
             // 
@@ -71,6 +72,7 @@
             this.btn9.TabIndex = 2;
             this.btn9.Text = "9";
             this.btn9.UseVisualStyleBackColor = true;
+            this.btn9.Click += new System.EventHandler(this.btn0_Click);
             // 
             // btn8
             // 
@@ -81,6 +83,7 @@
             this.btn8.TabIndex = 3;
             this.btn8.Text = "8";
             this.btn8.UseVisualStyleBackColor = true;
+            this.btn8.Click += new System.EventHandler(this.btn0_Click);
             // 
             // btn5
             // 
@@ -91,6 +94,7 @@
             this.btn5.TabIndex = 6;
             this.btn5.Text = "5";
             this.btn5.UseVisualStyleBackColor = true;
+            this.btn5.Click += new System.EventHandler(this.btn0_Click);
             // 
             // btn6
             // 
@@ -101,6 +105,7 @@
             this.btn6.TabIndex = 5;
             this.btn6.Text = "6";
             this.btn6.UseVisualStyleBackColor = true;
+            this.btn6.Click += new System.EventHandler(this.btn0_Click);
             // 
             // btn4
             // 
@@ -111,6 +116,7 @@
             this.btn4.TabIndex = 4;
             this.btn4.Text = "4";
             this.btn4.UseVisualStyleBackColor = true;
+            this.btn4.Click += new System.EventHandler(this.btn0_Click);
             // 
             // btn2
             // 
@@ -121,6 +127,7 @@
             this.btn2.TabIndex = 9;
             this.btn2.Text = "2";
             this.btn2.UseVisualStyleBackColor = true;
+            this.btn2.Click += new System.EventHandler(this.btn0_Click);
             // 
             // btn3
             // 
@@ -131,6 +138,7 @@
             this.btn3.TabIndex = 8;
             this.btn3.Text = "3";
             this.btn3.UseVisualStyleBackColor = true;
+            this.btn3.Click += new System.EventHandler(this.btn0_Click);
             // 
             // btn1
             // 
@@ -141,6 +149,7 @@
             this.btn1.TabIndex = 7;
             this.btn1.Text = "1";
             this.btn1.UseVisualStyleBackColor = true;
+            this.btn1.Click += new System.EventHandler(this.btn0_Click);
             // 
             // btnPoint
             // 
@@ -151,6 +160,7 @@
             this.btnPoint.TabIndex = 12;
             this.btnPoint.Text = ".";
             this.btnPoint.UseVisualStyleBackColor = true;
+            this.btnPoint.Click += new System.EventHandler(this.btn0_Click);
             // 
             // btnEqual
             // 
@@ -171,6 +181,7 @@
             this.btn0.TabIndex = 10;
             this.btn0.Text = "0";
             this.btn0.UseVisualStyleBackColor = true;
+            this.btn0.Click += new System.EventHandler(this.btn0_Click);
             // 
             // btnBackspace
             // 
@@ -181,6 +192,7 @@
             this.btnBackspace.TabIndex = 13;
             this.btnBackspace.Text = "AC";
             this.btnBackspace.UseVisualStyleBackColor = true;
+            this.btnBackspace.Click += new System.EventHandler(this.btnBackspace_Click);
             // 
             // CalculatorForm
             // 
@@ -200,9 +212,9 @@
             this.Controls.Add(this.btn8);
             this.Controls.Add(this.btn9);
             this.Controls.Add(this.btn7);
-            this.Controls.Add(this.input);
+            this.Controls.Add(this.userInput);
             this.Name = "CalculatorForm";
-            this.Text = "Form1";
+            this.Text = "Calculator";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -210,7 +222,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox input;
+        private System.Windows.Forms.TextBox userInput;
         private System.Windows.Forms.Button btn7;
         private System.Windows.Forms.Button btn9;
         private System.Windows.Forms.Button btn8;
