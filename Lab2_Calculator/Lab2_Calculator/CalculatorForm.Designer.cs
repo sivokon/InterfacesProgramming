@@ -42,6 +42,7 @@
             this.btnEqual = new System.Windows.Forms.Button();
             this.btn0 = new System.Windows.Forms.Button();
             this.btnBackspace = new System.Windows.Forms.Button();
+            this.btnPlus = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // userInput
@@ -171,6 +172,7 @@
             this.btnEqual.TabIndex = 11;
             this.btnEqual.Text = "=";
             this.btnEqual.UseVisualStyleBackColor = true;
+            this.btnEqual.Click += new System.EventHandler(this.btnEqual_Click);
             // 
             // btn0
             // 
@@ -194,11 +196,23 @@
             this.btnBackspace.UseVisualStyleBackColor = true;
             this.btnBackspace.Click += new System.EventHandler(this.btnBackspace_Click);
             // 
+            // btnPlus
+            // 
+            this.btnPlus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnPlus.Location = new System.Drawing.Point(431, 219);
+            this.btnPlus.Name = "btnPlus";
+            this.btnPlus.Size = new System.Drawing.Size(77, 37);
+            this.btnPlus.TabIndex = 14;
+            this.btnPlus.Text = "+";
+            this.btnPlus.UseVisualStyleBackColor = true;
+            this.btnPlus.Click += new System.EventHandler(this.btnPlus_Click);
+            // 
             // CalculatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(666, 364);
+            this.Controls.Add(this.btnPlus);
             this.Controls.Add(this.btnBackspace);
             this.Controls.Add(this.btnPoint);
             this.Controls.Add(this.btnEqual);
@@ -236,6 +250,7 @@
         private System.Windows.Forms.Button btnEqual;
         private System.Windows.Forms.Button btn0;
         private System.Windows.Forms.Button btnBackspace;
+        private System.Windows.Forms.Button btnPlus;
     }
 }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lab2_Calculator.Services;
+using System;
 using System.Windows.Forms;
 
 namespace Lab2_Calculator
@@ -23,5 +24,25 @@ namespace Lab2_Calculator
                 userInput.Text = userInput.Text.Remove(lastSymbolIndex);
             }
         }
+
+        private void btnEqual_Click(object sender, EventArgs e)
+        {
+            var inputs = userInput.Text.Split(' ');
+            //MessageBox.Show(inputs.Length.ToString());
+            var service = new Service();
+
+            var result = service.Calculate(inputs);
+
+            if (result != string.Empty)
+            {
+                userInput.Text = result;
+            }
+        }
+
+        private void btnPlus_Click(object sender, EventArgs e)
+        {
+            userInput.Text += $" {(sender as Button).Text} ";
+        }
+
     }
 }
