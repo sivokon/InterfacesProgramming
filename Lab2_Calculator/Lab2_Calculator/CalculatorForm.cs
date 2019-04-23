@@ -1,5 +1,7 @@
 ﻿using Lab2_Calculator.Services;
+using Microsoft.CSharp;
 using System;
+using System.CodeDom.Compiler;
 using System.Windows.Forms;
 
 namespace Lab2_Calculator
@@ -62,11 +64,10 @@ namespace Lab2_Calculator
 
         private void btnEqual_Click(object sender, EventArgs e)
         {
-            var inputs = userInput.Text.Split(' ');
+            var result = ExpressionCalculator.Calc(userInput.Text.Replace('x', '*')).ToString();
+            //var service = new Service();
 
-            var service = new Service();
-
-            var result = service.Calculate(inputs);
+            //var result = service.Calculate(userInput.Text.Replace('x', '*'));
 
             if (result != string.Empty)
             {
@@ -75,4 +76,35 @@ namespace Lab2_Calculator
         }
 
     }
+
+    public static class ExpressionCalculator
+    {
+        public static double Calc(string expression)
+        {
+            string source =
+                @"
+                using System;
+ 
+                public static class Calculator
+                {
+                    public static double Calc()
+                    {
+                        return %expression%;
+                    }
+                }".Replace("%expression%", expression);
+
+            // Настройки компиляции
+            var compilerParams = new CompilerParameters { GenerateInMemory = true };
+            // Компиляция
+            var results = new CSharpCodeProvider().CompileAssemblyFromSource(compilerParams, source);
+            //обработка ошибок
+            if (results.Errors.Count > 0)
+                throw new Exception(results.Errors[0].ErrorText);
+            //получаем калькулятор
+            var calculator = results.CompiledAssembly.GetType("Calculator");
+            //считаем
+            return (double)calculator.GetMethod("Calc").Invoke(null, null);
+        }
+    }
+
 }

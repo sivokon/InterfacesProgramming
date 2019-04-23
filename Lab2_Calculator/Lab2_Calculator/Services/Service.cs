@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Data;
 
 namespace Lab2_Calculator.Services
 {
-    public enum Operations
+    public enum Ops
     {
         Add,
         Subtract,
@@ -18,91 +20,119 @@ namespace Lab2_Calculator.Services
 
         }
 
-        public string Calculate(string[] userInput)
+        public string Calculate2(string[] userInput)
         {
-            if (!double.TryParse(userInput[userInput.Length - 1], out var lastElement))
+            var d = new DataTable();
+
+            var numbers = new List<double> { 5, 8, 2, 3, 1, 5 };
+            var ops = new List<Ops>
             {
-                return string.Empty;
+                Ops.Add,
+                Ops.Devide,
+                Ops.Multiply,
+                Ops.Subtract,
+                Ops.Multiply
+            };
+
+            var newList = new List<ArrayList>();
+            
+
+            for (int i = 0; i < ops.Count; i++)
+            {
+
             }
 
-            var numbers = new List<double>();
-            var operations = new List<string>();
+            return string.Empty;
+        }
 
-            for (int i = 0; i < userInput.Length; i++)
-            {
-                if (i % 2 == 0)
-                {
-                     numbers.Add(double.Parse(userInput[i]));
-                }
-            }
+        public string Calculate(string userInput)
+        {
+           // string math = "(5 + 8) / 2 * 3 - 1 * 5";
+            return new DataTable().Compute(userInput, null).ToString();
 
-            for (int i = 0; i < userInput.Length; i++)
-            {
-                if (i % 2 == 1)
-                {
-                    operations.Add(userInput[i]);
-                }
-            }
+            //if (!double.TryParse(userInput[userInput.Length - 1], out var lastElement))
+            //{
+            //    return string.Empty;
+            //}
 
-            List<double> finalNumbers = new List<double>();
-            double first = 0;
-            double res = 0;
-            bool wasMinus = false;
+            //var numbers = new List<double>();
+            //var operations = new List<string>();
 
-            for (int i = 0; i < numbers.Count; i++)
-            {
-                if (i != 0)
-                {
-                    if (operations[i - 1] == "x" || operations[i - 1] == "/")
-                    {
-                        if (operations[i - 1] == "x") res = first * numbers[i];
-                        else if (operations[i - 1] == "/") res = first / numbers[i];
-                        if (i != numbers.Count - 1)
-                        {
-                            if (operations[i] == "x" || operations[i] == "/")
-                            {
-                                first = res;
-                                continue;
-                            }
-                        }
-                        if (wasMinus) res = res * -1;
-                        finalNumbers.Add(res);
-                        wasMinus = false;
-                        first = 0;
-                        continue;
-                    }
-                }
-                if (i != numbers.Count - 1)
-                {
-                    if (operations[i] == "+" || operations[i] == "-")
-                    {
-                        if (i != 0)
-                        {
-                            if (operations[i - 1] == "-")
-                            {
-                                finalNumbers.Add(numbers[i] * -1);
-                                continue;
-                            }
-                        }
-                        finalNumbers.Add(numbers[i]);
-                    }
-                    else if (operations[i] == "x" || operations[i] == "/")
-                    {
-                        if (i != 0)
-                        {
-                            if (operations[i - 1] == "-") wasMinus = true;
-                        }
-                        if (first == 0) first = numbers[i];
-                    }
-                }
-                else
-                {
-                    if (operations[i - 1] == "+") finalNumbers.Add(numbers[i]);
-                    else if (operations[i - 1] == "-") finalNumbers.Add(numbers[i] * -1);
-                }
-            }
+            //for (int i = 0; i < userInput.Length; i++)
+            //{
+            //    if (i % 2 == 0)
+            //    {
+            //         numbers.Add(double.Parse(userInput[i]));
+            //    }
+            //}
 
-            return finalNumbers.Sum().ToString();
+            //for (int i = 0; i < userInput.Length; i++)
+            //{
+            //    if (i % 2 == 1)
+            //    {
+            //        operations.Add(userInput[i]);
+            //    }
+            //}
+
+            //List<double> finalNumbers = new List<double>();
+            //double first = 0;
+            //double res = 0;
+            //bool wasMinus = false;
+
+            //for (int i = 0; i < numbers.Count; i++)
+            //{
+            //    if (i != 0)
+            //    {
+            //        if (operations[i - 1] == "x" || operations[i - 1] == "/")
+            //        {
+            //            if (operations[i - 1] == "x") res = first * numbers[i];
+            //            else if (operations[i - 1] == "/") res = first / numbers[i];
+            //            if (i != numbers.Count - 1)
+            //            {
+            //                if (operations[i] == "x" || operations[i] == "/")
+            //                {
+            //                    first = res;
+            //                    continue;
+            //                }
+            //            }
+            //            if (wasMinus) res = res * -1;
+            //            finalNumbers.Add(res);
+            //            wasMinus = false;
+            //            first = 0;
+            //            continue;
+            //        }
+            //    }
+            //    if (i != numbers.Count - 1)
+            //    {
+            //        if (operations[i] == "+" || operations[i] == "-")
+            //        {
+            //            if (i != 0)
+            //            {
+            //                if (operations[i - 1] == "-")
+            //                {
+            //                    finalNumbers.Add(numbers[i] * -1);
+            //                    continue;
+            //                }
+            //            }
+            //            finalNumbers.Add(numbers[i]);
+            //        }
+            //        else if (operations[i] == "x" || operations[i] == "/")
+            //        {
+            //            if (i != 0)
+            //            {
+            //                if (operations[i - 1] == "-") wasMinus = true;
+            //            }
+            //            if (first == 0) first = numbers[i];
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (operations[i - 1] == "+") finalNumbers.Add(numbers[i]);
+            //        else if (operations[i - 1] == "-") finalNumbers.Add(numbers[i] * -1);
+            //    }
+            //}
+
+            //return finalNumbers.Sum().ToString();
         }
 
 
