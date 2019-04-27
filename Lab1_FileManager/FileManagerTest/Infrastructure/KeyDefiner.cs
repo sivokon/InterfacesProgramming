@@ -1,126 +1,89 @@
 ﻿using FileManagerTest.Abstraction;
 using FileManagerTest.KeyHandlers;
 using System;
-using System.Collections.Generic;
 
 namespace FileManagerTest.Infrastructure
 {
     public class KeyDefiner
     {
-        private Dictionary<ConsoleKey, IKeyHandler> _keyHandlers;
-        private DefaultHandler _defaultHandler;
+        private Lazy<UpArrowHandler> _upArrowHandler;
+        private Lazy<DownArrowHandler> _downArrowHandler;
+        private Lazy<LeftArrowHandler> _leftArrowHandler;
+        private Lazy<RightArrowHandler> _rightArrowHandler;
+        private Lazy<AltCHandler> _altCHandler;
+        private Lazy<AltVHandler> _altVHandler;
+        private Lazy<AltXHandler> _altXHandler;
+        private Lazy<AltIHandler> _altIHandler;
+        private Lazy<DeleteHandler> _deleteHandler;
+        private Lazy<DefaultHandler> _defaultHandler;
 
         public KeyDefiner()
         {
-            _keyHandlers = new Dictionary<ConsoleKey, IKeyHandler>();
+            _upArrowHandler = new Lazy<UpArrowHandler>(() => new UpArrowHandler());
+            _downArrowHandler = new Lazy<DownArrowHandler>(() => new DownArrowHandler());
+            _leftArrowHandler = new Lazy<LeftArrowHandler>(() => new LeftArrowHandler());
+            _rightArrowHandler = new Lazy<RightArrowHandler>(() => new RightArrowHandler());
+            _altCHandler = new Lazy<AltCHandler>(() => new AltCHandler());
+            _altVHandler = new Lazy<AltVHandler>(() => new AltVHandler());
+            _altXHandler = new Lazy<AltXHandler>(() => new AltXHandler());
+            _altIHandler = new Lazy<AltIHandler>(() => new AltIHandler());
+            _deleteHandler = new Lazy<DeleteHandler>(() => new DeleteHandler());
+            _defaultHandler = new Lazy<DefaultHandler>(() => new DefaultHandler());
         }
 
         public IKeyHandler DefinePressedKey(ConsoleKeyInfo consoleKeyInfo)
         {
             IKeyHandler keyHandler = null;
 
-            switch (consoleKeyInfo.Key)
+            if (consoleKeyInfo.Modifiers == ConsoleModifiers.Alt)
             {
-                case ConsoleKey.UpArrow: 
-                    if (!_keyHandlers.ContainsKey(ConsoleKey.UpArrow))
-                    {
-                        _keyHandlers[ConsoleKey.UpArrow] = new UpArrowHandler();
-                    }
-                    keyHandler = _keyHandlers[ConsoleKey.UpArrow];
-                    break;
-
-                case ConsoleKey.DownArrow:
-                    if (!_keyHandlers.ContainsKey(ConsoleKey.DownArrow))
-                    {
-                        _keyHandlers[ConsoleKey.DownArrow] = new DownArrowHandler();
-                    }
-                    keyHandler = _keyHandlers[ConsoleKey.DownArrow];
-                    break;
-
-                case ConsoleKey.LeftArrow:
-                    if (!_keyHandlers.ContainsKey(ConsoleKey.LeftArrow))
-                    {
-                        _keyHandlers[ConsoleKey.LeftArrow] = new LeftArrowHandler();
-                    }
-                    keyHandler = _keyHandlers[ConsoleKey.LeftArrow];
-                    break;
-
-                case ConsoleKey.RightArrow:
-                    if (!_keyHandlers.ContainsKey(ConsoleKey.RightArrow))
-                    {
-                        _keyHandlers[ConsoleKey.RightArrow] = new RightArrowHandler();
-                    }
-                    keyHandler = _keyHandlers[ConsoleKey.RightArrow];
-                    break;
-
-                case ConsoleKey.C:
-                    if (consoleKeyInfo.Modifiers == ConsoleModifiers.Alt)
-                    {
-                        if (!_keyHandlers.ContainsKey(ConsoleKey.C))
-                        {
-                            _keyHandlers[ConsoleKey.C] = new AltCHandler();
-                        }
-                        keyHandler = _keyHandlers[ConsoleKey.C];
-                    }
-                    break;
-
-                case ConsoleKey.V:
-                    if (consoleKeyInfo.Modifiers == ConsoleModifiers.Alt)
-                    {
-                        if (!_keyHandlers.ContainsKey(ConsoleKey.V))
-                        {
-                            _keyHandlers[ConsoleKey.V] = new AltVHandler();
-                        }
-                        keyHandler = _keyHandlers[ConsoleKey.V];
-                    }
-                    break;
-
-                case ConsoleKey.X:
-                    if (consoleKeyInfo.Modifiers == ConsoleModifiers.Alt)
-                    {
-                        if (!_keyHandlers.ContainsKey(ConsoleKey.X))
-                        {
-                            _keyHandlers[ConsoleKey.X] = new AltXHandler();
-                        }
-                        keyHandler = _keyHandlers[ConsoleKey.X];
-                    }
-                    break;
-
-                case ConsoleKey.I:
-                    if (consoleKeyInfo.Modifiers == ConsoleModifiers.Alt)
-                    {
-                        if (!_keyHandlers.ContainsKey(ConsoleKey.I))
-                        {
-                            _keyHandlers[ConsoleKey.I] = new AltIHandler();
-                        }
-                        keyHandler = _keyHandlers[ConsoleKey.I];
-                    }
-                    break;
-
-                case ConsoleKey.Delete:
-                    if (!_keyHandlers.ContainsKey(ConsoleKey.Delete))
-                    {
-                        _keyHandlers[ConsoleKey.Delete] = new DeleteHandler();
-                    }
-                    keyHandler = _keyHandlers[ConsoleKey.Delete];
-                    break;
-
-                default: 
-                    if (_defaultHandler == null)
-                    {
-                        _defaultHandler = new DefaultHandler();
-                    }
-                    keyHandler = _defaultHandler;
-                    break;
-            }
-
-            if (keyHandler == null)
-            {
-                if (_defaultHandler == null)
+                switch (consoleKeyInfo.Key)
                 {
-                    _defaultHandler = new DefaultHandler();
+                    case ConsoleKey.C:
+                        keyHandler = _altCHandler.Value;
+                        break;
+
+                    case ConsoleKey.V:
+                        keyHandler = _altVHandler.Value;
+                        break;
+
+                    case ConsoleKey.X:
+                        keyHandler = _altXHandler.Value;
+                        break;
+
+                    case ConsoleKey.I:
+                        keyHandler = _altIHandler.Value;
+                        break;
                 }
-                keyHandler = _defaultHandler;
+            }
+            else
+            {
+                switch (consoleKeyInfo.Key)
+                {
+                    case ConsoleKey.UpArrow:
+                        keyHandler = _upArrowHandler.Value;
+                        break;
+
+                    case ConsoleKey.DownArrow:
+                        keyHandler = _downArrowHandler.Value;
+                        break;
+
+                    case ConsoleKey.LeftArrow:
+                        keyHandler = _leftArrowHandler.Value;
+                        break;
+
+                    case ConsoleKey.RightArrow:
+                        keyHandler = _rightArrowHandler.Value;
+                        break;
+
+                    case ConsoleKey.Delete:
+                        keyHandler = _deleteHandler.Value;
+                        break;
+
+                    default:
+                        keyHandler = _deleteHandler.Value;
+                        break;
+                }
             }
 
             return keyHandler;
