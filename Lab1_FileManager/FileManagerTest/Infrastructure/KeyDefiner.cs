@@ -79,14 +79,10 @@ namespace FileManagerTest.Infrastructure
                     case ConsoleKey.Delete:
                         keyHandler = _deleteHandler.Value;
                         break;
-
-                    default:
-                        keyHandler = _deleteHandler.Value;
-                        break;
                 }
             }
 
-            return keyHandler;
+            return keyHandler ?? _defaultHandler.Value;
         }
     }
 }
