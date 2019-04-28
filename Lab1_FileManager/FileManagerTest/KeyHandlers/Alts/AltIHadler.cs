@@ -7,10 +7,10 @@ namespace FileManagerTest.KeyHandlers
 {
     public class AltIHandler : IKeyHandler
     {
-        public void HandlePressedKey()
+        public void HandlePressedKey(FileManagerState fileManagerState)
         {
             var fileSystemInfo =
-                FileManagerState.CurrentDirectoryFiles[CursorState.Y - CursorState.MinY] as FileInfo;
+                fileManagerState.CurrentDirectoryFiles[CursorState.Y - CursorState.MinY] as FileInfo;
 
             if (fileSystemInfo != null)
             {
@@ -42,7 +42,7 @@ namespace FileManagerTest.KeyHandlers
 
                 Console.CursorVisible = false;
 
-                FileManagerState.FileInfoMode = true;
+                fileManagerState.FileInfoMode = true;
             }
         }
     }

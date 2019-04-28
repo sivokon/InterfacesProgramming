@@ -9,35 +9,35 @@ namespace FileManagerTest.KeyHandlers
 {
     public class LeftArrowHandler : IKeyHandler
     {
-        public void HandlePressedKey()
+        public void HandlePressedKey(FileManagerState fileManagerState)
         {
-            if ((FileManagerState.CurrentPath == FileManagerState.StartPath) && !FileManagerState.FileInfoMode)
+            if ((fileManagerState.CurrentPath == fileManagerState.StartPath) && !fileManagerState.FileInfoMode)
             {
                 return;
             }
 
-            if (FileManagerState.CurrentDirectoryName != null && !FileManagerState.FileInfoMode)
+            if (fileManagerState.CurrentDirectoryName != null && !fileManagerState.FileInfoMode)
             {
-                var newPath = FileManagerState.CurrentPath.Replace($"\\{FileManagerState.CurrentDirectoryName}", "");
+                var newPath = fileManagerState.CurrentPath.Replace($"\\{fileManagerState.CurrentDirectoryName}", "");
 
                 if (Directory.Exists(newPath))
                 {
-                    FileManagerState.CurrentDirectoryName = newPath.Substring(newPath.LastIndexOf("\\") + 1);
+                    fileManagerState.CurrentDirectoryName = newPath.Substring(newPath.LastIndexOf("\\") + 1);
 
-                    FileManagerState.CurrentPath = newPath;
+                    fileManagerState.CurrentPath = newPath;
 
                     var directory = new DirectoryInfo(newPath);
-                    FileManagerState.CurrentDirectoryFiles = directory.EnumerateFileSystemInfos().ToList();
+                    fileManagerState.CurrentDirectoryFiles = directory.EnumerateFileSystemInfos().ToList();
                 }
             }
 
             CursorState.ResetCursorState();
-            CursorState.MaxY = FileManagerState.CurrentDirectoryFiles.Count;
+            CursorState.MaxY = fileManagerState.CurrentDirectoryFiles.Count;
 
             ConsolePaintService.DrawCurrentStateConsole();
 
             Console.CursorVisible = true;
-            FileManagerState.FileInfoMode = false;
+            fileManagerState.FileInfoMode = false;
         }
     }
 }

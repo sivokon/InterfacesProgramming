@@ -3,19 +3,29 @@ using System.IO;
 
 namespace FileManagerTest.Models
 {
-    public static class FileManagerState
+    public class FileManagerState
     {
-        public static string StartPath { get; set; }
-        public static string CurrentPath { get; set; }
-        public static string CurrentDirectoryName { get; set; }
-        public static List<FileSystemInfo> CurrentDirectoryFiles { get; set; }
+        public string StartPath { get; set; }
+        public string CurrentPath { get; set; }
+        public string CurrentDirectoryName { get; set; }
+        public List<FileSystemInfo> CurrentDirectoryFiles { get; set; }
 
-        public static string ClipboardFilePath { get; set; }
-        public static string ClipboardFileName { get; set; }
+        public string ClipboardFilePath { get; set; }
+        public string ClipboardFileName { get; set; }
 
-        public static bool CopyFileStarted { get; set; } = false;
-        public static bool MoveFileStarted { get; set; } = false;
-        public static bool FileInfoMode { get; set; } = false;
+        public bool CopyFileStarted { get; set; }
+        public bool MoveFileStarted { get; set; }
+        public bool FileInfoMode { get; set; }
 
+        public FileManagerState(string startPath)
+        {
+            StartPath = startPath;
+            CurrentPath = startPath;
+
+            CurrentDirectoryFiles = new List<FileSystemInfo>();
+            CopyFileStarted = false;
+            MoveFileStarted = false;
+            FileInfoMode = false;
+        }
     }
 }

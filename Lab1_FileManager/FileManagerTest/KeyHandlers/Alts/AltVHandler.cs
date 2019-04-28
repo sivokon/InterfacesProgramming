@@ -8,40 +8,40 @@ namespace FileManagerTest.KeyHandlers
 {
     public class AltVHandler : IKeyHandler
     {
-        public void HandlePressedKey()
+        public void HandlePressedKey(FileManagerState fileManagerState)
         {
-            if (FileManagerState.FileInfoMode)
+            if (fileManagerState.FileInfoMode)
             {
                 return;
             }
 
-            if (!string.IsNullOrEmpty(FileManagerState.ClipboardFilePath) && 
-                !string.IsNullOrEmpty(FileManagerState.ClipboardFileName) &&
-                (FileManagerState.CopyFileStarted || FileManagerState.MoveFileStarted))
+            if (!string.IsNullOrEmpty(fileManagerState.ClipboardFilePath) && 
+                !string.IsNullOrEmpty(fileManagerState.ClipboardFileName) &&
+                (fileManagerState.CopyFileStarted || fileManagerState.MoveFileStarted))
             {
-                if (FileManagerState.CopyFileStarted)
+                if (fileManagerState.CopyFileStarted)
                 {
                     File.Copy(
-                        $"{FileManagerState.ClipboardFilePath}\\{FileManagerState.ClipboardFileName}",
-                        $"{FileManagerState.CurrentPath}\\{FileManagerState.ClipboardFileName}");
+                        $"{fileManagerState.ClipboardFilePath}\\{fileManagerState.ClipboardFileName}",
+                        $"{fileManagerState.CurrentPath}\\{fileManagerState.ClipboardFileName}");
                 }
-                if (FileManagerState.MoveFileStarted)
+                if (fileManagerState.MoveFileStarted)
                 {
                     File.Move(
-                        $"{FileManagerState.ClipboardFilePath}\\{FileManagerState.ClipboardFileName}",
-                        $"{FileManagerState.CurrentPath}\\{FileManagerState.ClipboardFileName}");
+                        $"{fileManagerState.ClipboardFilePath}\\{fileManagerState.ClipboardFileName}",
+                        $"{fileManagerState.CurrentPath}\\{fileManagerState.ClipboardFileName}");
                 }
 
-                var directory = new DirectoryInfo(FileManagerState.CurrentPath);
-                FileManagerState.CurrentDirectoryFiles = directory.EnumerateFileSystemInfos().ToList();
+                var directory = new DirectoryInfo(fileManagerState.CurrentPath);
+                fileManagerState.CurrentDirectoryFiles = directory.EnumerateFileSystemInfos().ToList();
 
                 CursorState.ResetCursorState();
-                CursorState.MaxY = FileManagerState.CurrentDirectoryFiles.Count;
+                CursorState.MaxY = fileManagerState.CurrentDirectoryFiles.Count;
 
                 ConsolePaintService.DrawCurrentStateConsole();
 
-                FileManagerState.CopyFileStarted = false;
-                FileManagerState.MoveFileStarted = false;
+                fileManagerState.CopyFileStarted = false;
+                fileManagerState.MoveFileStarted = false;
             }
         }
     }

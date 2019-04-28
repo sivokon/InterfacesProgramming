@@ -8,25 +8,25 @@ namespace FileManagerTest.KeyHandlers
 {
     public class DeleteHandler : IKeyHandler
     {
-        public void HandlePressedKey()
+        public void HandlePressedKey(FileManagerState fileManagerState)
         {
-            if (FileManagerState.FileInfoMode)
+            if (fileManagerState.FileInfoMode)
             {
                 return;
             }
 
-            string fileToDeleteName = 
-                FileManagerState.CurrentDirectoryFiles[CursorState.Y - CursorState.MinY].Name;
+            string fileToDeleteName =
+                fileManagerState.CurrentDirectoryFiles[CursorState.Y - CursorState.MinY].Name;
 
-            string fileToDeletePath = FileManagerState.CurrentPath + "\\" + fileToDeleteName;
+            string fileToDeletePath = fileManagerState.CurrentPath + "\\" + fileToDeleteName;
 
             File.Delete(fileToDeletePath);
 
-            var directory = new DirectoryInfo(FileManagerState.CurrentPath);
-            FileManagerState.CurrentDirectoryFiles = directory.EnumerateFileSystemInfos().ToList();
+            var directory = new DirectoryInfo(fileManagerState.CurrentPath);
+            fileManagerState.CurrentDirectoryFiles = directory.EnumerateFileSystemInfos().ToList();
 
             CursorState.ResetCursorState();
-            CursorState.MaxY = FileManagerState.CurrentDirectoryFiles.Count;
+            CursorState.MaxY = fileManagerState.CurrentDirectoryFiles.Count;
 
             ConsolePaintService.DrawCurrentStateConsole();
         }
