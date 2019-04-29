@@ -32,28 +32,28 @@ namespace Lab2_Calculator
             return result;
         }
 
-        public double GetOperationResult(ArithmeticOperation arithmeticOperation)
-        {
-            var result = 0.0;
+        //public double GetOperationResult(ArithmeticOperation arithmeticOperation)
+        //{
+        //    var result = 0.0;
 
-            switch (arithmeticOperation.Operation)
-            {
-                case "+":
-                    result = arithmeticOperation.FirstOperand + arithmeticOperation.SecondOperand;
-                    break;
-                case "-":
-                    result = arithmeticOperation.FirstOperand - arithmeticOperation.SecondOperand;
-                    break;
-                case "*":
-                    result = arithmeticOperation.FirstOperand * arithmeticOperation.SecondOperand;
-                    break;
-                case "/":
-                    result = arithmeticOperation.FirstOperand / arithmeticOperation.SecondOperand;
-                    break;
-            }
+        //    switch (arithmeticOperation.Operation)
+        //    {
+        //        case "+":
+        //            result = arithmeticOperation.FirstOperand + arithmeticOperation.SecondOperand;
+        //            break;
+        //        case "-":
+        //            result = arithmeticOperation.FirstOperand - arithmeticOperation.SecondOperand;
+        //            break;
+        //        case "*":
+        //            result = arithmeticOperation.FirstOperand * arithmeticOperation.SecondOperand;
+        //            break;
+        //        case "/":
+        //            result = arithmeticOperation.FirstOperand / arithmeticOperation.SecondOperand;
+        //            break;
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
     }
 }

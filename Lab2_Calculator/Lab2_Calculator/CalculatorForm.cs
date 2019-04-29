@@ -1,5 +1,4 @@
-﻿using Lab2_Calculator.models;
-using System;
+﻿using System;
 using System.Windows.Forms;
 
 namespace Lab2_Calculator
@@ -9,6 +8,7 @@ namespace Lab2_Calculator
         private readonly CalculatorService _calculatorService;
         private string _operation;
         private double _result;
+        private bool _lastBtnIsOperation = false;
         private const string Zero = "0";
 
         public CalculatorForm()
@@ -36,16 +36,17 @@ namespace Lab2_Calculator
         {
             Button clicked = (Button)sender;
 
-            if (userInput.Text == Zero)
+            if (userInput.Text == Zero || _lastBtnIsOperation)
             {
                 userInput.Text = string.Empty;
+                _lastBtnIsOperation = false;
             }
             userInput.Text += clicked.Text;
         }
 
         private void btnPoint_Click(object sender, EventArgs e)
         {
-            if (!userInput.Text.Contains("."))
+            if (userInput.Text != string.Empty && !userInput.Text.Contains("."))
             {
                 userInput.Text += ".";
             }
@@ -57,6 +58,7 @@ namespace Lab2_Calculator
             {
                 userInput.Text = userInput.Text.Remove(userInput.Text.Length - 1, 1);
             }
+
             if (userInput.Text == string.Empty)
             {
                 userInput.Text = Zero;
@@ -81,7 +83,7 @@ namespace Lab2_Calculator
 
             if (!string.IsNullOrEmpty(_operation))
             {
-                _result = 
+                _result =
                     _calculatorService.GetOperationResult(_result, double.Parse(userInput.Text), _operation);
             }
             else
@@ -91,7 +93,7 @@ namespace Lab2_Calculator
 
             _operation = clicked.Text;
             label.Text = $"{_result} {_operation}";
-            userInput.Text = Zero;
+            _lastBtnIsOperation = true;
         }
 
         private void btnEquals_Click(object sender, EventArgs e)
@@ -107,7 +109,7 @@ namespace Lab2_Calculator
 
         private void btnToggleSign_Click(object sender, EventArgs e)
         {
-            if (userInput.Text != Zero)
+            if (userInput.Text != Zero && userInput.Text != string.Empty)
             {
                 userInput.Text = (double.Parse(userInput.Text) * -1).ToString();
             }
