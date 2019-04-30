@@ -6,9 +6,11 @@ namespace Lab2_Calculator
     public partial class CalculatorForm : Form
     {
         private readonly CalculatorService _calculatorService;
+
         private string _operation;
-        private double _result;
-        private bool _lastBtnIsOperation = false;
+        private double _currentResult;
+        private bool _lastBtnIsOperation;
+
         private const string Zero = "0";
 
         public CalculatorForm()
@@ -16,19 +18,21 @@ namespace Lab2_Calculator
             InitializeComponent();
 
             _calculatorService = new CalculatorService();
+
+            Reset();
         }
 
         private void standartToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Width = 272;
-            userInput.Width = 234;
+            txtDisplay.Width = 234;
             btnEquals.Width = 234;
         }
 
         private void scientificToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Width = 530;
-            userInput.Width = 491;
+            txtDisplay.Width = 491;
             btnEquals.Width = 491;
         }
 
@@ -36,45 +40,43 @@ namespace Lab2_Calculator
         {
             Button clicked = (Button)sender;
 
-            if (userInput.Text == Zero || _lastBtnIsOperation)
+            if (txtDisplay.Text == Zero || _lastBtnIsOperation)
             {
-                userInput.Text = string.Empty;
+                txtDisplay.Text = string.Empty;
                 _lastBtnIsOperation = false;
             }
-            userInput.Text += clicked.Text;
+            txtDisplay.Text += clicked.Text;
         }
 
         private void btnPoint_Click(object sender, EventArgs e)
         {
-            if (userInput.Text != string.Empty && !userInput.Text.Contains("."))
+            if (txtDisplay.Text != string.Empty && !txtDisplay.Text.Contains("."))
             {
-                userInput.Text += ".";
+                txtDisplay.Text += ".";
             }
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            if (userInput.Text != Zero)
+            if (txtDisplay.Text != Zero)
             {
-                userInput.Text = userInput.Text.Remove(userInput.Text.Length - 1, 1);
+                txtDisplay.Text = txtDisplay.Text.Remove(txtDisplay.Text.Length - 1, 1);
             }
 
-            if (userInput.Text == string.Empty)
+            if (txtDisplay.Text == string.Empty)
             {
-                userInput.Text = Zero;
+                txtDisplay.Text = Zero;
             }
         }
 
         private void btnC_Click(object sender, EventArgs e)
         {
-            userInput.Text = Zero;
-            label.Text = Zero;
+            Reset();
         }
 
         private void btnCE_Click(object sender, EventArgs e)
         {
-            userInput.Text = Zero;
-            label.Text = Zero;
+            Reset();
         }
 
         private void BasicOperation_Click(object sender, EventArgs e)
@@ -83,16 +85,17 @@ namespace Lab2_Calculator
 
             if (!string.IsNullOrEmpty(_operation))
             {
-                _result =
-                    _calculatorService.GetOperationResult(_result, double.Parse(userInput.Text), _operation);
+                _currentResult =
+                    _calculatorService.GetOperationResult(_currentResult, double.Parse(txtDisplay.Text), _operation);
             }
             else
             {
-                _result = double.Parse(userInput.Text);
+                _currentResult = double.Parse(txtDisplay.Text);
             }
 
             _operation = clicked.Text;
-            label.Text = $"{_result} {_operation}";
+            label.Text = $"{_currentResult} {_operation}";
+            txtDisplay.Text = _currentResult.ToString();
             _lastBtnIsOperation = true;
         }
 
@@ -100,8 +103,8 @@ namespace Lab2_Calculator
         {
             label.Text = Zero;
 
-            userInput.Text = _calculatorService
-                .GetOperationResult(_result, double.Parse(userInput.Text), _operation)
+            txtDisplay.Text = _calculatorService
+                .GetOperationResult(_currentResult, double.Parse(txtDisplay.Text), _operation)
                 .ToString();
 
             _operation = string.Empty;
@@ -109,11 +112,104 @@ namespace Lab2_Calculator
 
         private void btnToggleSign_Click(object sender, EventArgs e)
         {
-            if (userInput.Text != Zero && userInput.Text != string.Empty)
+            if (txtDisplay.Text != Zero && txtDisplay.Text != string.Empty)
             {
-                userInput.Text = (double.Parse(userInput.Text) * -1).ToString();
+                txtDisplay.Text = (double.Parse(txtDisplay.Text) * -1).ToString();
             }
         }
 
+        private void btnPI_Click(object sender, EventArgs e)
+        {
+            txtDisplay.Text = "3.1415926535897932";
+        }
+
+        private void btnE_Click(object sender, EventArgs e)
+        {
+            txtDisplay.Text = "2.7182818284590452";
+        }
+
+        private void btnSqrt_Click(object sender, EventArgs e)
+        {
+            var operand = double.Parse(txtDisplay.Text);
+            var sqrtResult = Math.Sqrt(operand);
+
+            UpdateLabelAndInput(operand, sqrtResult, "Sqrt");
+        }
+
+        private void btnLog_Click(object sender, EventArgs e)
+        {
+            var operand = double.Parse(txtDisplay.Text);
+            var log10Result = Math.Log10(operand);
+
+            UpdateLabelAndInput(operand, log10Result, "Log");
+        }
+
+        private void UpdateLabelAndInput(double argument, double operationResult, string operationName)
+        {
+            if (!string.IsNullOrEmpty(_operation))
+            {
+                operationResult = _calculatorService.GetOperationResult(_currentResult, operationResult, _operation);
+                label.Text += $" {operationName}({argument})";
+                _operation = string.Empty;
+            }
+            else
+            {
+                label.Text = $"{operationName}({argument})";
+            }
+            txtDisplay.Text = operationResult.ToString();
+        }
+
+        private void Reset()
+        {
+            txtDisplay.Text = Zero;
+            label.Text = Zero;
+            _operation = string.Empty;
+            _currentResult = 0.0;
+            _lastBtnIsOperation = false;
+        }
+
+        private void btnLn_Click(object sender, EventArgs e)
+        {
+            var operand = double.Parse(txtDisplay.Text);
+            var log10Result = Math.Log(operand);
+
+            UpdateLabelAndInput(operand, log10Result, "Ln");
+        }
+
+        private void btnInv_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnXpow2_Click(object sender, EventArgs e)
+        {
+            var operand = double.Parse(txtDisplay.Text);
+            var log10Result = Math.Pow(operand, 2);
+
+            UpdateLabelAndInput(operand, log10Result, "^2");
+        }
+
+        private void btnXpow3_Click(object sender, EventArgs e)
+        {
+            var operand = double.Parse(txtDisplay.Text);
+            var log10Result = Math.Pow(operand, 3);
+
+            UpdateLabelAndInput(operand, log10Result, "^3");
+        }
+
+        private void btn10PowX_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void btnInt_Click(object sender, EventArgs e)
+        {
+            txtDisplay.Text = ((int)double.Parse(txtDisplay.Text)).ToString();
+        }
+
+        private void btnFactorial_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

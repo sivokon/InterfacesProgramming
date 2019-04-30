@@ -1,4 +1,5 @@
 ﻿using Lab2_Calculator.models;
+using System;
 
 namespace Lab2_Calculator
 {
@@ -27,10 +28,18 @@ namespace Lab2_Calculator
                 case "/":
                     result = firstOperand / secondOperand;
                     break;
+                case "Mod":
+                    result = firstOperand % secondOperand;
+                    break;
+                case "Exp":
+                    result = Math.Sqrt(firstOperand);
+                    break;
             }
 
             return result;
         }
+
+        //public double 
 
         //public double GetOperationResult(ArithmeticOperation arithmeticOperation)
         //{
