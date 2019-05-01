@@ -5,20 +5,20 @@ namespace FileManagerTest.KeyHandlers
 {
     public class AltCHandler : IKeyHandler
     {       
-        public void HandlePressedKey()
+        public void HandlePressedKey(FileManagerState fileManagerState)
         {
-            if (FileManagerState.FileInfoMode)
+            if (fileManagerState.FileInfoMode)
             {
                 return;
             }
 
-            FileManagerState.ClipboardFilePath = FileManagerState.CurrentPath;
+            fileManagerState.ClipboardFilePath = fileManagerState.CurrentPath;
 
-            FileManagerState.ClipboardFileName = 
-                FileManagerState.CurrentDirectoryFiles[CursorState.Y - CursorState.MinY].Name;
+            fileManagerState.ClipboardFileName =
+                fileManagerState.CurrentDirectoryFiles[CursorState.Y - CursorState.MinY].Name;
 
-            FileManagerState.CopyFileStarted = true;
-            FileManagerState.MoveFileStarted = false;
+            fileManagerState.CopyFileStarted = true;
+            fileManagerState.MoveFileStarted = false;
         }
     }
 }

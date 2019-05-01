@@ -10,21 +10,21 @@ namespace FileManagerTest
         static void Main(string[] args)
         {
             Console.Write("Input start directory path:  ");
-            FileManagerState.StartPath = Console.ReadLine();
+            var startPath = Console.ReadLine();
 
-            while (!Directory.Exists(FileManagerState.StartPath))
+            while (!Directory.Exists(startPath))
             {
                 Console.WriteLine("Directory does not exist!");
                 Console.WriteLine();
                 Console.Write("Input start directory path:  ");
 
-                FileManagerState.StartPath = Console.ReadLine();
+                startPath = Console.ReadLine();
             }
 
-            //FileManagerState.StartPath = @"C:\Test";
-            FileManagerState.CurrentPath = FileManagerState.StartPath;
-
-            var fileManager = new FileManager();
+            var fileManagerState = new FileManagerState(@"C:\Test");
+            //var fileManagerState = new FileManagerState(startPath);
+            var keyDefiner = new KeyDefiner();
+            var fileManager = new FileManager(fileManagerState, keyDefiner);
 
             fileManager.Start();
         }

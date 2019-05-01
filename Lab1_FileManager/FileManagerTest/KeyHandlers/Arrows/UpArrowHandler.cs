@@ -6,9 +6,9 @@ namespace FileManagerTest.KeyHandlers
 {
     public class UpArrowHandler : IKeyHandler
     {
-        public void HandlePressedKey()
+        public void HandlePressedKey(FileManagerState fileManagerState)
         {
-            if (FileManagerState.FileInfoMode)
+            if (fileManagerState.FileInfoMode)
             {
                 return;
             }
@@ -18,14 +18,14 @@ namespace FileManagerTest.KeyHandlers
                 ConsolePaintService.DrawLine(
                     CursorState.X,
                     CursorState.Y,
-                    FileManagerState.CurrentDirectoryFiles[CursorState.Y - CursorState.MinY].Name);
+                    fileManagerState.CurrentDirectoryFiles[CursorState.Y - CursorState.MinY].Name);
 
                 CursorState.Y--;
 
                 ConsolePaintService.DrawLine(
                     CursorState.X,
                     CursorState.Y,
-                    $"> {FileManagerState.CurrentDirectoryFiles[CursorState.Y - CursorState.MinY].Name}");
+                    $"> {fileManagerState.CurrentDirectoryFiles[CursorState.Y - CursorState.MinY].Name}");
             }
         }
     }

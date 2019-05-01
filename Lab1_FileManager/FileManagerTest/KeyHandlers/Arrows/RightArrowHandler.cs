@@ -8,33 +8,33 @@ namespace FileManagerTest.KeyHandlers
 {
     public class RightArrowHandler : IKeyHandler
     {
-        public void HandlePressedKey()
+        public void HandlePressedKey(FileManagerState fileManagerState)
         {
-            if (FileManagerState.FileInfoMode)
+            if (fileManagerState.FileInfoMode)
             {
                 return;
             }
 
-            if (FileManagerState.CurrentDirectoryFiles.Count == 0)
+            if (fileManagerState.CurrentDirectoryFiles.Count == 0)
             {
                 return;
             }
 
-            var newPath = FileManagerState.CurrentPath + "\\" + 
-                FileManagerState.CurrentDirectoryFiles[CursorState.Y - CursorState.MinY].Name;
+            var newPath = fileManagerState.CurrentPath + "\\" +
+                fileManagerState.CurrentDirectoryFiles[CursorState.Y - CursorState.MinY].Name;
 
             if (Directory.Exists(newPath))
             {
-                FileManagerState.CurrentDirectoryName = 
-                    FileManagerState.CurrentDirectoryFiles[CursorState.Y - CursorState.MinY].Name;
+                fileManagerState.CurrentDirectoryName =
+                    fileManagerState.CurrentDirectoryFiles[CursorState.Y - CursorState.MinY].Name;
 
-                FileManagerState.CurrentPath = newPath;
+                fileManagerState.CurrentPath = newPath;
 
                 var directory = new DirectoryInfo(newPath);
-                FileManagerState.CurrentDirectoryFiles = directory.EnumerateFileSystemInfos().ToList();
+                fileManagerState.CurrentDirectoryFiles = directory.EnumerateFileSystemInfos().ToList();
 
                 CursorState.ResetCursorState();
-                CursorState.MaxY = FileManagerState.CurrentDirectoryFiles.Count;
+                CursorState.MaxY = fileManagerState.CurrentDirectoryFiles.Count;
 
                 ConsolePaintService.DrawCurrentStateConsole();
             }
