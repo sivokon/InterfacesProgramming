@@ -14,7 +14,7 @@ namespace FileManagerTest.Services
             Console.SetCursorPosition(cursorX, cursorY);
         }
 
-        public static void DrawCurrentStateConsole()
+        public static void DrawCurrentStateConsole(FileManagerState fileManagerState)
         {
             Console.Clear();
 
@@ -24,18 +24,18 @@ namespace FileManagerTest.Services
             Console.WriteLine();
             Console.WriteLine();
 
-            Console.WriteLine($"Current directory: {FileManagerState.CurrentPath}");
+            Console.WriteLine($"Current directory: {fileManagerState.CurrentPath}");
             Console.WriteLine();
 
-            for (int i = 0; i < FileManagerState.CurrentDirectoryFiles.Count; i++)
+            for (int i = 0; i < fileManagerState.CurrentDirectoryFiles.Count; i++)
             {
                 if (i == 0)
                 {
-                    Console.WriteLine($"> {FileManagerState.CurrentDirectoryFiles[i]}");
+                    Console.WriteLine($"> {fileManagerState.CurrentDirectoryFiles[i]}");
                 }
                 else
                 {
-                    Console.WriteLine(FileManagerState.CurrentDirectoryFiles[i]);
+                    Console.WriteLine(fileManagerState.CurrentDirectoryFiles[i]);
                 }
             }
 

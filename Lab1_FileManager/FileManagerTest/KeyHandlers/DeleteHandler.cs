@@ -28,7 +28,7 @@ namespace FileManagerTest.KeyHandlers
             CursorState.ResetCursorState();
             CursorState.MaxY = fileManagerState.CurrentDirectoryFiles.Count;
 
-            ConsolePaintService.DrawCurrentStateConsole();
+            ConsolePaintService.DrawCurrentStateConsole(fileManagerState);
         }
     }
 }

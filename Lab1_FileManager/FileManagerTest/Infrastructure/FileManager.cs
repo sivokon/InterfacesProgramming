@@ -25,7 +25,7 @@ namespace FileManagerTest.Infrastructure
             CursorState.ResetCursorState();
             CursorState.MaxY = _fileManagerState.CurrentDirectoryFiles.Count;
 
-            ConsolePaintService.DrawCurrentStateConsole();
+            ConsolePaintService.DrawCurrentStateConsole(_fileManagerState);
 
             do
             {
