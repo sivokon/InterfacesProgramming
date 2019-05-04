@@ -36,6 +36,7 @@ namespace Lab2_Calculator
         private void CalculatorForm_Load(object sender, EventArgs e)
         {
             _currentViewType = ViewType.Standart;
+            txtDisplay.Text = Zero;
 
             Width = 272;
             txtDisplay.Width = 234;
@@ -45,6 +46,7 @@ namespace Lab2_Calculator
         private void standartToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _currentViewType = ViewType.Standart;
+            txtDisplay.Text = Zero;
 
             Width = 272;
             txtDisplay.Width = 234;
@@ -56,6 +58,7 @@ namespace Lab2_Calculator
         private void scientificToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _currentViewType = ViewType.Scientific;
+            txtDisplay.Text = Zero;
 
             Width = 530;
             txtDisplay.Width = 491;
@@ -71,6 +74,7 @@ namespace Lab2_Calculator
         private void programmerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _currentViewType = ViewType.Programmer;
+            txtDisplay.Text = Zero;
 
             Width = 580;
             txtDisplay.Width = 541;
