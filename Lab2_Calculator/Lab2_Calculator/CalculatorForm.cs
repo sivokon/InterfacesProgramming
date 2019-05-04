@@ -1,8 +1,16 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Lab2_Calculator
 {
+    enum ViewType
+    {
+        Standart,
+        Scientific,
+        Programmer
+    }
+
     public partial class CalculatorForm : Form
     {
         private readonly CalculatorService _calculatorService;
@@ -10,6 +18,7 @@ namespace Lab2_Calculator
         private string _operation;
         private double _currentResult;
         private bool _lastBtnIsOperation;
+        private ViewType _currentViewType;
 
         private const string Zero = "0";
         private const string CannotDevideByZero = "Cannot devide by zero";
@@ -23,18 +32,55 @@ namespace Lab2_Calculator
             Reset();
         }
 
-        private void standartToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CalculatorForm_Load(object sender, EventArgs e)
         {
+            _currentViewType = ViewType.Standart;
+
             Width = 272;
             txtDisplay.Width = 234;
             btnEquals.Width = 234;
         }
 
+        private void standartToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _currentViewType = ViewType.Standart;
+
+            Width = 272;
+            txtDisplay.Width = 234;
+            btnEquals.Width = 234;
+
+            btnPoint.Enabled = true;
+        }
+
         private void scientificToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            _currentViewType = ViewType.Scientific;
+
             Width = 530;
             txtDisplay.Width = 491;
-            btnEquals.Width = 491;
+            btnEquals.Width = 234;
+
+            panelProgrammer.Visible = false;
+            panelScientific.Visible = true;
+            panelScientific.Location = new Point(267, 86);
+
+            btnPoint.Enabled = true;
+        }
+
+        private void programmerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _currentViewType = ViewType.Programmer;
+
+            Width = 580;
+            txtDisplay.Width = 541;
+            btnEquals.Width = 234;
+
+            panelProgrammer.Visible = true;
+            panelScientific.Visible = false;
+            panelProgrammer.Location = new Point(267, 86);
+
+            rbDec.Checked = true;
+            btnPoint.Enabled = false;
         }
 
         private void NumberButton_Click(object sender, EventArgs e)
@@ -84,39 +130,130 @@ namespace Lab2_Calculator
         {
             Button clicked = (Button)sender;
 
-            if (!string.IsNullOrEmpty(_operation))
+            var inputValue = 0.0;
+            
+            if (_currentViewType == ViewType.Programmer)
             {
-                _currentResult =
-                    _calculatorService.GetOperationResult(_currentResult, double.Parse(txtDisplay.Text), _operation);
+                if (rbHex.Checked)
+                {
+                    inputValue = Convert.ToInt32(txtDisplay.Text, 16);
+                }
+                else if (rbDec.Checked)
+                {
+                    inputValue = double.Parse(txtDisplay.Text);
+                }
+                else if (rbOct.Checked)
+                {
+                    inputValue = Convert.ToInt32(txtDisplay.Text, 8);
+                }
+                else
+                {
+                    inputValue = Convert.ToInt32(txtDisplay.Text, 2);
+                }
             }
             else
             {
-                _currentResult = double.Parse(txtDisplay.Text);
+                inputValue = double.Parse(txtDisplay.Text);
+            }
+
+            if (!string.IsNullOrEmpty(_operation))
+            {
+                _currentResult =
+                    _calculatorService.GetOperationResult(_currentResult, inputValue, _operation);
+            }
+            else
+            {
+                _currentResult = inputValue;
             }
 
             _operation = clicked.Text;
 
+            var txtResult = _currentResult.ToString();
+
+            if (_currentViewType == ViewType.Programmer)
+            {
+                if (rbHex.Checked)
+                {
+                    txtResult = ((int)_currentResult).ToString("x").ToUpper();
+                }
+                else if (rbOct.Checked)
+                {
+                    txtResult = Convert.ToString((int)_currentResult, 8);
+                }
+                else if (rbBin.Checked)
+                {
+                    txtResult = Convert.ToString((int)_currentResult, 2);
+                }
+            }
+
             if (_operation == "x^y")
             {
-                label.Text = $"{_currentResult}^";
+                label.Text = $"{txtResult}^";
             }
             else
             {
-                label.Text = $"{_currentResult} {_operation}";
+                label.Text = $"{txtResult} {_operation}";
             }
 
-            txtDisplay.Text = _currentResult.ToString();
+            txtDisplay.Text = txtResult;
             _lastBtnIsOperation = true;
         }
 
         private void btnEquals_Click(object sender, EventArgs e)
         {
+            var inputValue = 0.0;
+
+            if (_currentViewType == ViewType.Programmer)
+            {
+                if (rbHex.Checked)
+                {
+                    inputValue = Convert.ToInt32(txtDisplay.Text, 16);
+                }
+                else if (rbDec.Checked)
+                {
+                    inputValue = double.Parse(txtDisplay.Text);
+                }
+                else if (rbOct.Checked)
+                {
+                    inputValue = Convert.ToInt32(txtDisplay.Text, 8);
+                }
+                else
+                {
+                    inputValue = Convert.ToInt32(txtDisplay.Text, 2);
+                }
+            }
+            else
+            {
+                inputValue = double.Parse(txtDisplay.Text);
+            }
+
+            var result = _calculatorService.GetOperationResult(_currentResult, inputValue, _operation);
+
+            if (_currentViewType == ViewType.Programmer)
+            {
+                if (rbHex.Checked)
+                {
+                    txtDisplay.Text = ((int)result).ToString("x").ToUpper();
+                }
+                else if (rbDec.Checked)
+                {
+                    txtDisplay.Text = result.ToString();
+                }
+                else if (rbOct.Checked)
+                {
+                    txtDisplay.Text = Convert.ToString((int)result, 8);
+                }
+                else if (rbBin.Checked)
+                {
+                    txtDisplay.Text = Convert.ToString((int)result, 2);
+                }
+            }
+            else
+            {
+                txtDisplay.Text = result.ToString();
+            }
+
             label.Text = Zero;
-
-            txtDisplay.Text = _calculatorService
-                .GetOperationResult(_currentResult, double.Parse(txtDisplay.Text), _operation)
-                .ToString();
-
             _operation = string.Empty;
         }
 
@@ -259,6 +396,105 @@ namespace Lab2_Calculator
             UpdateLabelAndInputText(operand, tanhResult, $"tanh({operand})");
         }
 
+        private void txtDisplay_TextChanged(object sender, EventArgs e)
+        {
+            if (_currentViewType == ViewType.Programmer && txtDisplay.Text != string.Empty)
+            {
+                if (rbHex.Checked)
+                {
+                    lblHex.Text = txtDisplay.Text.ToUpper();
+                    lblDec.Text = Convert.ToInt32(txtDisplay.Text, 16).ToString();
+                    lblOct.Text = Convert.ToString(Convert.ToInt32(txtDisplay.Text, 16), 8);
+                    lblBin.Text = Convert.ToString(Convert.ToInt32(txtDisplay.Text, 16), 2);
+                }
+                else if (rbDec.Checked)
+                {
+                    var input = int.Parse(txtDisplay.Text);
+                    
+                    lblHex.Text = input.ToString("x").ToUpper();
+                    lblDec.Text = input.ToString();
+                    lblOct.Text = Convert.ToString(input, 8);
+                    lblBin.Text = Convert.ToString(input, 2);
+                }
+                else if (rbOct.Checked)
+                {
+                    lblHex.Text = Convert.ToInt32(txtDisplay.Text, 8).ToString("x").ToUpper();
+                    lblDec.Text = Convert.ToInt32(txtDisplay.Text, 8).ToString();
+                    lblOct.Text = txtDisplay.Text;
+                    lblBin.Text = Convert.ToString(Convert.ToInt32(txtDisplay.Text, 8), 2);
+                }
+                else
+                {
+                    lblHex.Text = Convert.ToInt32(txtDisplay.Text, 2).ToString("x").ToUpper();
+                    lblDec.Text = Convert.ToInt32(txtDisplay.Text, 2).ToString();
+                    lblOct.Text = Convert.ToString(Convert.ToInt32(txtDisplay.Text, 2), 8);
+                    lblBin.Text = txtDisplay.Text;
+                }
+            }
+        }
+
+        private void rbHex_CheckedChanged(object sender, EventArgs e)
+        {
+            SwitchHexButtons(true);
+            SwitchOctButtons(true);
+            SwitchBinButtons(true);
+
+            txtDisplay.Text = lblHex.Text;
+        }
+
+        private void rbDec_CheckedChanged(object sender, EventArgs e)
+        {
+            SwitchHexButtons(false);
+            SwitchOctButtons(true);
+            SwitchBinButtons(true);
+
+            txtDisplay.Text = lblDec.Text;
+        }
+
+        private void rbOct_CheckedChanged(object sender, EventArgs e)
+        {
+            SwitchHexButtons(false);
+            SwitchOctButtons(false);
+            SwitchBinButtons(true);
+
+            txtDisplay.Text = lblOct.Text;
+        }
+
+        private void rbBin_CheckedChanged(object sender, EventArgs e)
+        {
+            SwitchHexButtons(false);
+            SwitchOctButtons(false);
+            SwitchBinButtons(false);
+
+            txtDisplay.Text = lblBin.Text;
+        }
+
+        private void SwitchHexButtons(bool value)
+        {
+            btnA.Enabled = value;
+            btnB.Enabled = value;
+            btnC.Enabled = value;
+            btnD.Enabled = value;
+            btnE.Enabled = value;
+            btnF.Enabled = value;
+        }
+
+        private void SwitchOctButtons(bool value)
+        {
+            btn8.Enabled = value;
+            btn9.Enabled = value;
+        }
+
+        private void SwitchBinButtons(bool value)
+        {
+            btn2.Enabled = value;
+            btn3.Enabled = value;
+            btn4.Enabled = value;
+            btn5.Enabled = value;
+            btn6.Enabled = value;
+            btn7.Enabled = value;
+        }
+
         private void UpdateLabelAndInputText(double argument, double operationResult, string labelText)
         {
             if (!string.IsNullOrEmpty(_operation))
@@ -283,10 +519,5 @@ namespace Lab2_Calculator
             _lastBtnIsOperation = false;
         }
 
-        private void btnBin_Click(object sender, EventArgs e)
-        {
-            var operand = double.Parse(txtDisplay.Text);
-            var binResult = Convert.ToString(5, 2);
-        }
     }
 }
