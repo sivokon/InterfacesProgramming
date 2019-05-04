@@ -57,7 +57,7 @@
             this.btnSqrt = new System.Windows.Forms.Button();
             this.btnLn = new System.Windows.Forms.Button();
             this.btn10PowX = new System.Windows.Forms.Button();
-            this.btnFactorial = new System.Windows.Forms.Button();
+            this.btn = new System.Windows.Forms.Button();
             this.Tanh = new System.Windows.Forms.Button();
             this.btnTan = new System.Windows.Forms.Button();
             this.btnXpow3 = new System.Windows.Forms.Button();
@@ -404,16 +404,16 @@
             this.btn10PowX.UseVisualStyleBackColor = true;
             this.btn10PowX.Click += new System.EventHandler(this.btn10PowX_Click);
             // 
-            // btnFactorial
+            // btn
             // 
-            this.btnFactorial.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnFactorial.Location = new System.Drawing.Point(120, 172);
-            this.btnFactorial.Name = "btnFactorial";
-            this.btnFactorial.Size = new System.Drawing.Size(54, 37);
-            this.btnFactorial.TabIndex = 36;
-            this.btnFactorial.Text = "n!";
-            this.btnFactorial.UseVisualStyleBackColor = true;
-            this.btnFactorial.Click += new System.EventHandler(this.btnFactorial_Click);
+            this.btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btn.Location = new System.Drawing.Point(120, 172);
+            this.btn.Name = "btn";
+            this.btn.Size = new System.Drawing.Size(54, 37);
+            this.btn.TabIndex = 36;
+            this.btn.Text = "n!";
+            this.btn.UseVisualStyleBackColor = true;
+            this.btn.Click += new System.EventHandler(this.btnFactorial_Click);
             // 
             // Tanh
             // 
@@ -622,7 +622,7 @@
             this.panelScientific.Controls.Add(this.btnLn);
             this.panelScientific.Controls.Add(this.Tanh);
             this.panelScientific.Controls.Add(this.btn10PowX);
-            this.panelScientific.Controls.Add(this.btnFactorial);
+            this.panelScientific.Controls.Add(this.btn);
             this.panelScientific.Location = new System.Drawing.Point(267, 86);
             this.panelScientific.Name = "panelScientific";
             this.panelScientific.Size = new System.Drawing.Size(234, 209);
@@ -886,7 +886,7 @@
         private System.Windows.Forms.Button btnSqrt;
         private System.Windows.Forms.Button btnLn;
         private System.Windows.Forms.Button btn10PowX;
-        private System.Windows.Forms.Button btnFactorial;
+        private System.Windows.Forms.Button btn;
         private System.Windows.Forms.Button Tanh;
         private System.Windows.Forms.Button btnTan;
         private System.Windows.Forms.Button btnXpow3;

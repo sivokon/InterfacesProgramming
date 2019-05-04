@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MathNet.Numerics;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -345,7 +346,19 @@ namespace Lab2_Calculator
 
         private void btnFactorial_Click(object sender, EventArgs e)
         {
+            var inputValue = double.Parse(txtDisplay.Text);
+            var result = 0.0;
 
+            if (txtDisplay.Text.Contains("."))
+            {
+                result = SpecialFunctions.Gamma(inputValue + 1);
+            }
+            else
+            {
+                result = SpecialFunctions.Factorial((int)inputValue);            
+            }
+
+            UpdateLabelAndInputText(inputValue, result, $"{inputValue}!");
         }
 
         private void btnSin_Click(object sender, EventArgs e)
